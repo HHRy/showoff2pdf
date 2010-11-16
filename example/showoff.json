@@ -1,0 +1,11 @@
+{ 
+
+	"name": "Introducing showoff2pdf",
+	"author": "Ryan Stenhouse",
+	"description": "showoff2pdf is a new utility that uses Prawn to convert your ShowOff presentations to PDF Documents." , 
+	
+	"sections": [ 
+		{"section":"one"} 
+	]
+
+}
