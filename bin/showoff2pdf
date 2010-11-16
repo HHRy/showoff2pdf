@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'show_off_pdf'
+paths = []
+images = []
+ShowOffUtils.showoff_sections.each do |section|
+  paths << Dir.glob(File.expand_path("./#{section}/*.{md,mdown}"))
+  images << Dir.glob(File.expand_path("./#{section}/**/*.{png,jpg,jpeg}"))
+end 
+paths.flatten!
+images.flatten!
+ImageFragment._image_assets = images
+puts ShowoffSlideStream.new(paths).to_pdf.render
