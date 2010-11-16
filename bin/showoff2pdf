@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require 'show_off_pdf'
+require File.dirname(__FILE__)  + '/../show_off_pdf'
 paths = []
 images = []
 ShowOffUtils.showoff_sections.each do |section|
