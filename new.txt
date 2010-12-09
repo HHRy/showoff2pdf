@@ -1,0 +1,13 @@
+subsection
+commandline
+incremental
+center
+command
+small
+full-page
+bullets
+smbullets
+code
+smaller
+execute
+transition=
