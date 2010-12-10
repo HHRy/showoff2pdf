@@ -51,6 +51,10 @@ The following known issues are being worked on
     and inconsistant.
   * Detecting and dealing with commandline blocks is
     sketchy and inconsistant.
+  * Images may become corrupt on OS X with some versions
+    of Prawn. Your best bet to solve this problem is to
+    update to at least Prawn 0.11.1.pre, which is what
+    fixed the issue for me.
 
 Bugs
 ----
