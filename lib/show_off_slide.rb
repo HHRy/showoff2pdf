@@ -60,6 +60,8 @@ class ShowOffSlide
     
     if @content[0,10] =~ /commandline/ || @content[0,10] =~ /command/
       sp = MarkdownPrawn::ShowOffCommandLineParser.new(@content)
+    elsif @content[0,30] =~ /center/
+      sp = MarkdownPrawn::StringParser.new(@content, :center => true)
     else
       sp = MarkdownPrawn::StringParser.new(@content)
     end

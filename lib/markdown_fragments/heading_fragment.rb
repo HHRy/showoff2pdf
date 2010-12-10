@@ -11,9 +11,9 @@ class HeadingFragment < MarkdownFragment
   private
 
     def _default_render_options
-      options = { :size => (50 - (10*@level)), :align => :left, :leading => 2, :inline_format => true }
-      if Prawn::VERSION =~ /^0.1/ || Prawn::VERSION =~ /^1/
-        options.merge({:inline_format => true})
+      options = { :inline_format => true, :size => (50 - (10*@level)), :align => :left, :leading => 2, :inline_format => true }
+      if center
+        options = options.merge({ :align => :center })
       end
       options
     end

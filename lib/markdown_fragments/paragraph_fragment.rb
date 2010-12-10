@@ -9,11 +9,9 @@ class ParagraphFragment < MarkdownFragment
 private
 
   def _default_render_options
-    options = { :size => 12, :align => :left, :leading => 2 }
-    if Prawn::VERSION =~ /^0.1/ || Prawn::VERSION =~ /^1/
-      options = options.merge({:inline_format => true})
-    else
-      options = options.merge({:inline_format => false})
+    options = { :inline_format => true, :size => 12, :align => :left, :leading => 2 }
+    if center
+      options = options.merge({ :align => :center })
     end
     options
   end

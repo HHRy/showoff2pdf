@@ -42,7 +42,7 @@ module MarkdownPrawn
         end
         code.content << line
       end
-      code.content[0] = ''
+      code.content[0].gsub!(/[#{ShowOffSlide::SHOWOFF_SLIDE_TYPES.join(',')}]/,'')
       @document_structure << code
     end
 

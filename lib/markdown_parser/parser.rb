@@ -9,7 +9,7 @@ module MarkdownPrawn
 class Parser
   attr_accessor :links_list, :images_list, :document_structure
 
-  def initialize(document_structure = [])
+  def initialize(document_structure = [], *other)
     @links_list = { :urls_seen => [], :object => LinksReferenceFragment.new }
     @document_structure = []
     @images_list = []
@@ -37,7 +37,11 @@ class Parser
   end
 
   def parse
+    if !@center
+      @center = false
+    end
     paragraph = ParagraphFragment.new
+    paragraph.center = @center
     list = ListFragment.new
     in_list = false
     in_code_block = false
@@ -46,7 +50,13 @@ class Parser
     
     @content.each_with_index do |line, index|
       line = process_inline_formatting(line)
- 
+      if index == 0
+        ShowOffSlide::SHOWOFF_SLIDE_TYPES.each do |type|
+          unless /\s?#{type}\s?/.match(line).nil?
+            line.gsub!(type,'')
+          end
+        end
+      end 
       # Assume everything is part of a paragraph by default and
       # add its content to the current in-scope paragraph object.
       #
@@ -55,6 +65,7 @@ class Parser
         unless paragraph.content.empty?
           @document_structure << paragraph
           paragraph = ParagraphFragment.new
+          paragraph.center = @center
         end
       end
       
@@ -65,6 +76,7 @@ class Parser
         hashes = $1.dup
         heading = HeadingFragment.new([line.gsub(hashes,'')])
         heading.level = hashes.length
+        heading.center = @center
         @document_structure << heading
       end
       
@@ -76,6 +88,7 @@ class Parser
         end
         heading = HeadingFragment.new([@content[index - 1]])
         heading.level = 1
+        heading.center = @center
         @document_structure << heading
       end
 
@@ -93,6 +106,7 @@ class Parser
           end
           heading = HeadingFragment.new([@content[index - 1]])
           heading.level = 2
+          heading.center = @center
           @document_structure << heading
         end
       end
