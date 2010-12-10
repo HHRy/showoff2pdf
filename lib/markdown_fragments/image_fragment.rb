@@ -60,6 +60,7 @@ class ImageFragment < MarkdownFragment
   def best_fit(width, height, pdf)
     ph = pdf.bounds.height - page_padding
     pw = pdf.bounds.width - page_padding
+    return [width, height] if height <= ph && width <= pw
 
     if ImageFragment._page_image_ratio
       iw = width * ImageFragment._page_image_ratio
@@ -71,7 +72,7 @@ class ImageFragment < MarkdownFragment
     iw = pixels_to_points(iw)
     ih = pixels_to_points(ih)
 
-    if height <= ph && width <= pw
+    if ih <= ph && iw <= pw
       return [iw, ih]
     elsif ih > ph
       r = height / width
