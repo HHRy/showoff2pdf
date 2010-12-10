@@ -11,7 +11,7 @@ TXT
 
 Gem::Specification.new do |spec|
   spec.name = "show_off_pdf"
-  spec.version = '0.0.2.pre'
+  spec.version = '0.0.3.pre'
   spec.platform = Gem::Platform::RUBY
   spec.files =  Dir.glob("{bin,lib,.}/**/**/*") +
                       ["show_off_pdf.rb","README.md","COPYING.md",'LICENSE', "show_off_pdf.gemspec"]
