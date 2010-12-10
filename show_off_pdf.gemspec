@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.author = "Ryan Stenhouse"
   spec.email = "ryan@ryanstenhouse.eu"
   spec.rubyforge_project = "show_off_pdf"
-  spec.add_dependency('prawn', '~>0.10')
+  spec.add_dependency('prawn', '~>0.11.1.pre')
   spec.add_dependency('showoff', '~>0.3.2')
   
   spec.homepage = "http://ryanstenhouse.eu"
