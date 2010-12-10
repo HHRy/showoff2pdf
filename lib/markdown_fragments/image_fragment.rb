@@ -2,6 +2,15 @@ require 'net/http'
 require 'tmpdir'
 
 class ImageFragment < MarkdownFragment
+
+  def self._page_image_ratio=(value)
+    @@_page_image_ratio = value
+  end
+
+  def self._page_image_ratio
+    @@_page_image_ratio
+  end
+
   def self._image_assets=(value)
     @@_image_assets = value
   end
@@ -36,7 +45,7 @@ class ImageFragment < MarkdownFragment
       height = JPEG.new(file_path).height
     end
     width,height = best_fit(width, height, pdf_object)
-    pdf_object.image file_path , :fit => [ width, height]
+    pdf_object.image file_path , :fit => [ width, height], :position => :center
   end
 
   private
@@ -48,12 +57,42 @@ class ImageFragment < MarkdownFragment
   # Calculate the width and height to best fit the
   # image on the page.
   #
-  # Just now it rather simply shrinks the image by 50%.
-  # That's not big or clever, but will do until I figure
-  # out the best way to sort this out.
-  #
   def best_fit(width, height, pdf)
-    return [width / 2, height / 2]
+    ph = pdf.bounds.height - page_padding
+    pw = pdf.bounds.width - page_padding
+
+    if ImageFragment._page_image_ratio
+      iw = width * ImageFragment._page_image_ratio
+      ih = height * ImageFragment._page_image_ratio
+    else
+      iw = width
+      ih = height
+    end
+    iw = pixels_to_points(iw)
+    ih = pixels_to_points(ih)
+
+    if ih <= ph && iw <= pw
+      return [iw, ih]
+    elsif ih > ph
+      r = height / width
+      ih = (ih - (page_padding * 2))
+      iw = ih * r
+    elsif iw > pw
+      r = width / height
+      iw = (iw - (page_padding * 2))
+      ih = iw * r
+    else
+      puts "SHOULD NEXT GET HERE"
+      exit(-1)
+    end
+    return [iw, ih]
+  end
+
+  # Work out the page padding later, for not assume that
+  # it's 20.
+  # 
+  def page_padding
+    20
   end
 
 
