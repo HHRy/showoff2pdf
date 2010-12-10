@@ -4,7 +4,7 @@ require File.dirname(__FILE__)  + '/../show_off_pdf'
 paths = []
 images = []
 ShowOffUtils.showoff_sections.each do |section|
-  paths << Dir.glob(File.expand_path("./#{section}/*.{md,mdown}"))
+  paths << Dir.glob(File.expand_path("./#{section}/**/*.{md,mdown}"))
   images << Dir.glob(File.expand_path("./#{section}/**/*.{png,jpg,jpeg}"))
 end 
 paths.flatten!
