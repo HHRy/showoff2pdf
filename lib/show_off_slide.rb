@@ -1,6 +1,22 @@
 class ShowOffSlide
   attr_accessor :components, :content
-  
+
+  SHOWOFF_SLIDE_TYPES = [
+                          'subsection',
+                          'commandline',
+                          'incremental',
+                          'center',
+                          'command',
+                          'small',
+                          'full-page',
+                          'bullets',
+                          'smbullets',
+                          'code',
+                          'smaller',
+                          'execute',
+                          'transition='
+                        ]
+
   def initialize(content = '', options = {})
     @components = []
     @options = { :size => 'A4', :layout => :landscape }.merge(options)
@@ -17,7 +33,17 @@ class ShowOffSlide
   private
   
   def parse    
-      
+    # Get rid of leading \n characters
+    #
+    @content.gsub!(/^(\n)*/,'') 
+
+    # Skip aparently blank slides
+    #
+    return if @content.empty?
+
+    # Pull out presenter notes for displaying at the bottom
+    # of the page
+    # 
     s =/(\s)?.notes\s(.*)(\n)?/.match(@content)
     if !s.nil?
       @slide_notes = $2
@@ -25,10 +51,9 @@ class ShowOffSlide
     else
       @slide_notes = nil
     end
-    
+
     sp = MarkdownPrawn::StringParser.new(@content)
     sp.parse!
-    #@components << ParagraphFragment.new([@content])
     @components = sp.document_structure
     if @slide_notes
       @components << PresenterNotesFragment.new([@slide_notes])
