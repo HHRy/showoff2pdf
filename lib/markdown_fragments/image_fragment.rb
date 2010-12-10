@@ -71,7 +71,7 @@ class ImageFragment < MarkdownFragment
     iw = pixels_to_points(iw)
     ih = pixels_to_points(ih)
 
-    if ih <= ph && iw <= pw
+    if height <= ph && width <= pw
       return [iw, ih]
     elsif ih > ph
       r = height / width
