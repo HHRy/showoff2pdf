@@ -35,13 +35,41 @@ class ImageFragment < MarkdownFragment
       width = JPEG.new(file_path).width 
       height = JPEG.new(file_path).height
     end
-    pdf_object.image file_path, :width => width, :height => height, :scale => 0.8
+    width,height = best_fit(width, height, pdf_object)
+    pdf_object.image file_path , :fit => [ width, height]
   end
 
   private
 
   def is_remote_uri?
     !/^(http:|https:)/.match(@content.first).nil?
+  end
+
+  # Calculate the width and height to best fit the
+  # image on the page.
+  #
+  # Just now it rather simply shrinks the image by 50%.
+  # That's not big or clever, but will do until I figure
+  # out the best way to sort this out.
+  #
+  def best_fit(width, height, pdf)
+    return [width / 2, height / 2]
+  end
+
+
+  # Very rough way to convert pixels to points, by
+  # assuming the we're at 96 DPI. This isn't the most
+  # ideal method, but it should be good enough for 
+  # sizing images to fit on page correctly.
+  #
+  def pixels_to_points(pixels)
+    pixels * 72 / 96
+  end
+
+  # Very rough reversal ov the above
+  #
+  def points_to_pixels(points)
+    points / 72 * 96
   end
 
 end
