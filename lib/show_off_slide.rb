@@ -52,7 +52,18 @@ class ShowOffSlide
       @slide_notes = nil
     end
 
-    sp = MarkdownPrawn::StringParser.new(@content)
+    # Determine the parser to use, based on the keywords shown on the
+    # first line of the @content. If none of the special words we're
+    # interested in comes up, then default to the StringParser and 
+    # we'll try to convert as much MarkDown as possible.
+    #
+    
+    if @content[0,10] =~ /commandline/ || @content[0,10] =~ /command/
+      sp = MarkdownPrawn::ShowOffCommandLineParser.new(@content)
+    else
+      sp = MarkdownPrawn::StringParser.new(@content)
+    end
+
     sp.parse!
     @components = sp.document_structure
     if @slide_notes
