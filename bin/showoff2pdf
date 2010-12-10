@@ -10,4 +10,11 @@ end
 paths.flatten!
 images.flatten!
 ImageFragment._image_assets = images
+
+# If we set this, then it'll automatically preshrink
+# images to 80% of their size before attempting to
+# scale them.
+#
+ImageFragment._page_image_ratio = 0.8
+
 puts ShowoffSlideStream.new(paths).to_pdf.render
